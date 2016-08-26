@@ -1,9 +1,10 @@
 "use strict";
 
-let $ = require('jquery'),
-    // db = require("./db-interaction"),
+var $ = require('jquery'),
+    db = require("./db-interactions"),
     // templates = require("./dom-builder"),
-    login = require("./user");
+    login = require("./user"),
+    movieResultsArray = [];
 
 let userId = "";
 
@@ -22,3 +23,35 @@ $("#loginLink").click(function() {
   });
 });
 //****************************************************************
+
+
+$("a").click(function(e){
+    e.preventDefault();
+});
+
+$("#searchMovies").click(function() {
+  let searchQuery = $("#movieTitle").val();
+
+  // console.log("clicked search");
+  // console.log(searchQuery);
+
+  db.searchMovies(searchQuery).then( function (movieTitles) {
+    movieResultsArray = [];
+    $.each(movieTitles.Search, function (index, key) {
+      let currentMovie = {
+        "Title": key.Title,
+        "Type": key.Type,
+        "Year": key.Year
+      };
+      movieResultsArray.push(currentMovie);
+    });
+  });
+
+
+
+
+    // var token = result.credential.accessToken;
+    // console.log("logged in user", user.uid);
+    // loadSongsToDOM();
+
+});

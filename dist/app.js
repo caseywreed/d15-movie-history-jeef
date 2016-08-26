@@ -1,6 +1,27 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
+let $ = require('jquery'),
+    firebase = require("./firebaseConfig");
+
+function searchMovies(searchQuery) {
+  return new Promise( function (resolve, reject) {
+    $.ajax({
+      url: `http://www.omdbapi.com/?s=${searchQuery}&y=&plot=short&r=json&page=1`
+    }).done(function(movieData) {
+      // console.log(movieData.Search[0].Title);
+      resolve(movieData);
+    });
+  });
+}
+
+
+module.exports = {
+  searchMovies
+};
+},{"./firebaseConfig":3,"jquery":10}],2:[function(require,module,exports){
+"use strict";
+
 function getFbKey() {
   return {
     key: "AIzaSyBqlH5nq52YvEc-etWM5EZFpfUecnf50vc",
@@ -10,7 +31,7 @@ function getFbKey() {
 
 module.exports = getFbKey;
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 "use strict";
 
 let firebase = require("firebase/app"),
@@ -31,13 +52,14 @@ firebase.initializeApp(config);
 
 module.exports = firebase;
 
-},{"./fb-getter":1,"firebase/app":5,"firebase/auth":6}],3:[function(require,module,exports){
+},{"./fb-getter":2,"firebase/app":6,"firebase/auth":7}],4:[function(require,module,exports){
 "use strict";
 
-let $ = require('jquery'),
-    // db = require("./db-interaction"),
+var $ = require('jquery'),
+    db = require("./db-interactions"),
     // templates = require("./dom-builder"),
-    login = require("./user");
+    login = require("./user"),
+    movieResultsArray = [];
 
 let userId = "";
 
@@ -57,7 +79,38 @@ $("#loginLink").click(function() {
 });
 //****************************************************************
 
-},{"./user":4,"jquery":9}],4:[function(require,module,exports){
+
+$("a").click(function(e){
+    e.preventDefault();
+});
+
+$("#searchMovies").click(function() {
+  let searchQuery = $("#movieTitle").val();
+
+  // console.log("clicked search");
+  // console.log(searchQuery);
+
+  db.searchMovies(searchQuery).then( function (movieTitles) {
+    movieResultsArray = [];
+    $.each(movieTitles.Search, function (index, key) {
+      let currentMovie = {
+        "Title": key.Title,
+        "Type": key.Type,
+        "Year": key.Year
+      };
+      movieResultsArray.push(currentMovie);
+    });
+  });
+
+
+
+
+    // var token = result.credential.accessToken;
+    // console.log("logged in user", user.uid);
+    // loadSongsToDOM();
+
+});
+},{"./db-interactions":1,"./user":5,"jquery":10}],5:[function(require,module,exports){
 "use strict";
 
 let firebase = require("./firebaseConfig"),
@@ -70,7 +123,7 @@ function logInGoogle() {
 
 module.exports = logInGoogle;
 
-},{"./firebaseConfig":2}],5:[function(require,module,exports){
+},{"./firebaseConfig":3}],6:[function(require,module,exports){
 /**
  *  Firebase app for browser npm package.
  *
@@ -81,7 +134,7 @@ module.exports = logInGoogle;
 require('./firebase-app');
 module.exports = firebase;
 
-},{"./firebase-app":7}],6:[function(require,module,exports){
+},{"./firebase-app":8}],7:[function(require,module,exports){
 /**
  *  Firebase auth for browser npm package.
  *
@@ -93,7 +146,7 @@ require('./firebase-app');
 require('./firebase-auth');
 module.exports = firebase.auth;
 
-},{"./firebase-app":7,"./firebase-auth":8}],7:[function(require,module,exports){
+},{"./firebase-app":8,"./firebase-auth":9}],8:[function(require,module,exports){
 (function (global){
 /*! @license Firebase v3.3.0
     Build: 3.3.0-rc.7
@@ -125,7 +178,7 @@ function Ia(a,b){b=b||{};b={noApp:"No Firebase App '"+b.name+"' has been created
 firebase.SDK_VERSION = "3.3.0";
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*! @license Firebase v3.3.0
     Build: 3.3.0-rc.7
     Terms: https://developers.google.com/terms */
@@ -344,7 +397,7 @@ V(Rf,"credential",Rf.credential,[sh(U(),nh(),"token")]);uh(Sf.prototype,{addScop
 (function(){if("undefined"!==typeof firebase&&firebase.INTERNAL&&firebase.INTERNAL.registerService){var a={Auth:Y,Error:R};V(a,"EmailAuthProvider",Xf,[]);V(a,"FacebookAuthProvider",Qf,[]);V(a,"GithubAuthProvider",Rf,[]);V(a,"GoogleAuthProvider",Sf,[]);V(a,"TwitterAuthProvider",Tf,[]);firebase.INTERNAL.registerService("auth",function(a,c){a=new Y(a);c({INTERNAL:{getToken:r(a.getToken,a),addAuthTokenListener:r(a.addAuthTokenListener,a),removeAuthTokenListener:r(a.removeAuthTokenListener,a)}});return a},
 a,function(a,c){if("create"===a)try{c.auth()}catch(d){}});firebase.INTERNAL.extendNamespace({User:W})}else throw Error("Cannot find the firebase namespace; be sure to include firebase-app.js before this library.");})();})();
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*eslint-disable no-unused-vars*/
 /*!
  * jQuery JavaScript Library v3.1.0
@@ -10420,4 +10473,4 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
-},{}]},{},[3]);
+},{}]},{},[4]);
