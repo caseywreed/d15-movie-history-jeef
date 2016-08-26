@@ -1,7 +1,7 @@
 "use strict";
 
-let $ = require('jquery'),
-    // db = require("./db-interaction"),
+var $ = require('jquery'),
+    db = require("./db-interactions"),
     // templates = require("./dom-builder"),
     login = require("./user");
 
@@ -22,3 +22,25 @@ $("#loginLink").click(function() {
   });
 });
 //****************************************************************
+
+
+$("a").click(function(e){
+    e.preventDefault();
+});
+
+$("#searchMovies").click(function() {
+  let searchQuery = $("#movieTitle").val();
+
+  // console.log("clicked search");
+  // console.log(searchQuery);
+
+  db.searchMovies(searchQuery);
+
+
+
+
+    // var token = result.credential.accessToken;
+    // console.log("logged in user", user.uid);
+    // loadSongsToDOM();
+
+});
