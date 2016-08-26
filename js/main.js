@@ -3,7 +3,8 @@
 var $ = require('jquery'),
     db = require("./db-interactions"),
     // templates = require("./dom-builder"),
-    login = require("./user");
+    login = require("./user"),
+    movieResultsArray = [];
 
 let userId = "";
 
@@ -34,7 +35,17 @@ $("#searchMovies").click(function() {
   // console.log("clicked search");
   // console.log(searchQuery);
 
-  db.searchMovies(searchQuery);
+  db.searchMovies(searchQuery).then( function (movieTitles) {
+    movieResultsArray = [];
+    $.each(movieTitles.Search, function (index, key) {
+      let currentMovie = {
+        "Title": key.Title,
+        "Type": key.Type,
+        "Year": key.Year
+      };
+      movieResultsArray.push(currentMovie);
+    });
+  });
 
 
 

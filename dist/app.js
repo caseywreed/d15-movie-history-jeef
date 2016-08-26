@@ -9,7 +9,7 @@ function searchMovies(searchQuery) {
     $.ajax({
       url: `http://www.omdbapi.com/?s=${searchQuery}&y=&plot=short&r=json&page=1`
     }).done(function(movieData) {
-      console.log(movieData.Search[0].Title);
+      // console.log(movieData.Search[0].Title);
       resolve(movieData);
     });
   });
@@ -58,7 +58,8 @@ module.exports = firebase;
 var $ = require('jquery'),
     db = require("./db-interactions"),
     // templates = require("./dom-builder"),
-    login = require("./user");
+    login = require("./user"),
+    movieResultsArray = [];
 
 let userId = "";
 
@@ -89,7 +90,17 @@ $("#searchMovies").click(function() {
   // console.log("clicked search");
   // console.log(searchQuery);
 
-  db.searchMovies(searchQuery);
+  db.searchMovies(searchQuery).then( function (movieTitles) {
+    movieResultsArray = [];
+    $.each(movieTitles.Search, function (index, key) {
+      let currentMovie = {
+        "Title": key.Title,
+        "Type": key.Type,
+        "Year": key.Year
+      };
+      movieResultsArray.push(currentMovie);
+    });
+  });
 
 
 

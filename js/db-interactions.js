@@ -8,7 +8,7 @@ function searchMovies(searchQuery) {
     $.ajax({
       url: `http://www.omdbapi.com/?s=${searchQuery}&y=&plot=short&r=json&page=1`
     }).done(function(movieData) {
-      console.log(movieData.Search[0].Title);
+      // console.log(movieData.Search[0].Title);
       resolve(movieData);
     });
   });
