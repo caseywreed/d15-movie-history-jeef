@@ -1,0 +1,28 @@
+h1 {
+  color: red; }
+
+a {
+  color: #ffab40; }
+
+.mhSideNav {
+  height: 500px; }
+
+.mhMain {
+  height: 500px;
+  overflow: scroll; }
+
+.rating {
+  color: #ffab40;
+  margin-right: 25px; }
+
+.ratingArea i {
+  margin-top: 5px;
+  color: gold; }
+
+.ratingStar {
+  margin-left: -20px; }
+
+.deleteChip {
+  margin-left: 50px; }
+
+/*# sourceMappingURL=main.css.map */
