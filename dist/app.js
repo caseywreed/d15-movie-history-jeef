@@ -135,7 +135,7 @@ $("#searchMovies").click(function() {
       // console.log(movieResultsArray);
     });
     hb.displayAll(movieResultsArray);
-  });
+ });
 
     // var token = result.credential.accessToken;
     // console.log("logged in user", user.uid);
