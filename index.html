@@ -8,94 +8,207 @@
 </head>
 <body>
 
+
   <div class="row">
     <div class="col s12  grey darken-2 white-text z-depth-5 mhBanner">
         <h3 class="center-align">JEEF Movies</h3>
     </div>
 
-    <div class="col s3 grey darken-1 z-depth-5 mhSideNav">
-      <div id="loginLink" class="section"><a href="#">Login/Register/Logout</a></div>
-
-      <div class="divider"></div>
-
-      <div class="section">
-        <div><a href="" id="searchMovies">Find New Movies</a></div>
-        <div class="input-field">
-          <input placeholder="Enter Movie Title" id="movieTitle" type="text" class="validate">
-          <label for="movieTitle"></label>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="section">
-        <div><a href="" id="searchYourMovies">Search Your Movies</a></div>
-        <div class="input-field">
-          <input placeholder="Enter Movie Title" id="yourMovieTitle" type="text" class="validate">
-          <label for="movieTitle"></label>
-        </div>
-      </div>
+    <div class="col s12 grey" id="movieTitleCol"> <!-- search and login -->
 
 
+      <span><a href="" id="searchMovies">Search</a></span>
+      <span class="input-field" id="movieTitleSpan">
+        <input placeholder="Enter Movie Title" id="movieTitle" type="text" class="validate">
+        <label for="movieTitle"></label>
+      </span>
 
-      <div class="divider"></div>
-
-      <div class="section">
-        <div><a href="">Show Unwatched</a></div>
-        <div><a href="">Show Watched</a></div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="section">
-        <div><a href="">Watch List</a></div>
-        <div><a href="">Favorites</a></div>
-      </div>
+      <span id="loginLink" class="section"><a href="#">Login/Register/Logout</a></span>
 
     </div>
 
+    <div class="col s12 grey" id="filterCol">
+      <h5 class="center-align">Movie History > Filters (placeholder)</h5>
+    </div>
+
+    <div class="col s12 grey" id="filterButtonsCol">
+      <a class="waves-effect waves-light btn blue-grey darken-2">Show Untracked</a>
+      <a class="waves-effect waves-light btn blue-grey darken-2">Show Unwatched</a>
+      <a class="waves-effect waves-light btn blue-grey darken-2">Show Watched</a>
+      <a class="waves-effect waves-light btn blue-grey darken-2">Favorites</a>
+    </div>
+
+
+
+
 
 <!-- search results 1 -->
-    <div class="col s9 grey mhMain">
+    <div class="col s12 grey mhMain">
 
-<!--       <div class="card blue-grey darken-1">
+
+  <div class="col s4 cardContainer">
+      <div class="card blue-grey darken-1">
         <div class="card-content white-text">
-            <span class="card-title">Search Results</span><span class="chip deleteChip">Delete<i class="close material-icons">close</i></span>
-          <p>Movie 1</p>
-          <p>Movie 2</p>
-        </div>
-        <div class="card-action">
-          <a href="#">Things</a>
-        </div>
-      </div> -->
-
-
-<!-- search results 2 -->
-      <!-- <div class="card blue-grey darken-1">
-        <div class="card-content white-text">
-            <span class="card-title">Starship Troopers</span><span class="chip deleteChip">Delete<i class="close material-icons">close</i></span>
+          <div>
+            <span class="chip deleteChip">Delete<i class="close material-icons">close</i></span>
+          </div>
+          <div>
+            <span class="card-title">Starship Troopers</span>
+          </div>
           <p>1997</p>
           <p>Casper Van Dien, Dina Meyer, Denise Richards, Jake Busey</p>
-          <p>Rating: 10/5</p>
-          <p>Watched</p>
+          <p>Rating: 10/10</p>
+
         </div>
         <div class="card-action">
-          <a href="#">Favorite</a>
-          <a href="#">Delete</a>
           <div class="ratingArea">
             <span class="rating">RATE: </span><a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
             <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
             <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
             <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
             <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
           </div>
         </div>
-      </div> -->
+      </div>
+    </div>
+
+
+    <div class="col s4 cardContainer">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <div>
+            <span class="chip deleteChip">Delete<i class="close material-icons">close</i></span>
+          </div>
+          <div>
+            <span class="card-title">Starship Troopers</span>
+          </div>
+          <p>1997</p>
+          <p>Casper Van Dien, Dina Meyer, Denise Richards, Jake Busey</p>
+          <p>Rating: 10/10</p>
+
+        </div>
+        <div class="card-action">
+          <div class="ratingArea">
+            <span class="rating">RATE: </span><a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="col s4 cardContainer">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <div>
+            <span class="chip deleteChip">Delete<i class="close material-icons">close</i></span>
+          </div>
+          <div>
+            <span class="card-title">Starship Troopers</span>
+          </div>
+          <p>1997</p>
+          <p>Casper Van Dien, Dina Meyer, Denise Richards, Jake Busey</p>
+          <p>Rating: 10/10</p>
+
+        </div>
+        <div class="card-action">
+          <div class="ratingArea">
+            <span class="rating">RATE: </span><a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="col s4 cardContainer">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <div>
+            <span class="chip deleteChip">Delete<i class="close material-icons">close</i></span>
+          </div>
+          <div>
+            <span class="card-title">Starship Troopers</span>
+          </div>
+          <p>1997</p>
+          <p>Casper Van Dien, Dina Meyer, Denise Richards, Jake Busey</p>
+          <p>Rating: 10/10</p>
+
+        </div>
+        <div class="card-action">
+          <div class="ratingArea">
+            <span class="rating">RATE: </span><a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col s4 cardContainer">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <div>
+            <span class="chip deleteChip">Delete<i class="close material-icons">close</i></span>
+          </div>
+          <div>
+            <span class="card-title">Starship Troopers</span>
+          </div>
+          <p>1997</p>
+          <p>Casper Van Dien, Dina Meyer, Denise Richards, Jake Busey</p>
+          <p>Rating: 10/10</p>
+
+        </div>
+        <div class="card-action">
+          <div class="ratingArea">
+            <span class="rating">RATE: </span><a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+            <a href="#" class="ratingStar"><i class="tiny material-icons">star</i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
 
     </div> <!-- mhMain end -->
 
   </div> <!-- row end -->
-
 
 
   <script src="node_modules/jquery/dist/jquery.min.js"></script>

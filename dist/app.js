@@ -100,6 +100,7 @@ $("#searchMovies").click(function() {
       };
       movieResultsArray.push(currentMovie);
     });
+    console.log(movieResultsArray);
   });
 
 

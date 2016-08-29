@@ -4,12 +4,33 @@ h1 {
 a {
   color: #ffab40; }
 
-.mhSideNav {
-  height: 500px; }
+#movieTitleCol {
+  border: 1px solid black;
+  height: 60px;
+  padding-top: 10px; }
+
+#movieTitleSpan {
+  width: 200px;
+  height: 30px; }
+
+#loginLink {
+  float: right; }
+
+#movieTitle {
+  width: 200px;
+  height: 30px;
+  border: 1px solid black; }
+
+#filterButtonsCol {
+  padding: 20px; }
 
 .mhMain {
   height: 500px;
-  overflow: scroll; }
+  overflow: scroll;
+  padding-top: 30px; }
+
+.card-title {
+  min-width: 100%; }
 
 .rating {
   color: #ffab40;
@@ -20,9 +41,9 @@ a {
   color: gold; }
 
 .ratingStar {
-  margin-left: -20px; }
+  margin-left: -25px; }
 
 .deleteChip {
-  margin-left: 50px; }
+  float: right; }
 
 /*# sourceMappingURL=main.css.map */
