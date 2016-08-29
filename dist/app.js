@@ -58,6 +58,8 @@ function secondMovieCall(movieData){
     });
 }
 
+
+
 function buildMovieObject (movieID) {
 
   let movieObj = {
@@ -97,12 +99,12 @@ let $ = require('jquery'),
 
 
 
-function getSongs(callback) {
+function getMovies() {
   return new Promise(function (resolve, reject) {
     $.ajax({
-      url: 'https://music-history-54c84.firebaseio.com/songs.json',
-    }).done(function (songData) {
-      resolve(songData);
+      url: 'https://movie-history-7fd8a.firebaseio.com/movies.json',
+    }).done(function (movieData) {
+      resolve(movieData);
     });
   });
 }
@@ -123,10 +125,10 @@ function saveMovie(movieObj) {
 }
 
 
-function deleteMovie(songId) {
+function deleteMovie(movieId) {
   return new Promise(function (resolve, reject) {
     $.ajax({
-      url: `https://music-history-54c84.firebaseio.com/songs/${songId}.json`,
+      url: `https://movie-history-7fd8a.firebaseio.com/movies/${movieId}.json`,
       type: 'DELETE'
     }).done(function (data) {
       resolve(data);
@@ -148,7 +150,8 @@ function getSong(songId) {
   });
 }
 
-module.exports = {saveMovie};
+
+module.exports = {saveMovie, deleteMovie, getMovies};
 
 },{"./db-interactions":1,"./firebaseConfig":4,"./hbcontrols":5,"jquery":32}],4:[function(require,module,exports){
 "use strict";
@@ -205,17 +208,29 @@ module.exports = {displayAll};
 },{"../templates/final-card.hbs":33,"../templates/movie-list.hbs":34,"hbsfy/runtime":31,"jquery":32}],6:[function(require,module,exports){
 "use strict";
 
-var $ = require('jquery'),
+let $ = require('jquery'),
     db = require("./db-interactions"),
     fb = require("./fb-interactions"),
     hb = require("./hbcontrols"),
     login = require("./user"),
     firebase = require("firebase/app"),
+    userId = null,
     movieResultsArray = [];
 
-let userId = "";
 
-
+function loadMoviesToDOM() {
+ userId = firebase.auth().userId.uid;
+  $("hb-main").html("");
+  db.getMovies()
+  .then(function(movieData){
+    var movieIdArr = Object.keys(movieData);
+    movieIdArr.forEach(function(key){
+      movieData[key].id = key;
+    });
+    console.log("movie obj with ID added", movieData);
+    hb.displayAll(movieData);
+  });
+}
 //***************************************************************
 // User login section. Should ideally be in its own module
 $("#loginLink").click(function() {
@@ -224,8 +239,10 @@ $("#loginLink").click(function() {
   .then(function (result) {
     // var token = result.credential.accessToken;
     let user = result.user;
+    console.log("logged in user", user.uid);//uid is the key to building a proper firebase app!
+    loadMoviesToDOM();
     // console.log("logged in user", user.uid);
-    userId = user.uid;
+    // userId = user.uid;
     // loadSongsToDOM();
   });
 });
@@ -266,9 +283,23 @@ $(document).on("click", ".addButton", function() {
 });
 
 $(document).on("click", ".deleteChip", function() {
-  let movieID = $(this).data("add-id");
-  db.buildMovieObject(movieID);
+  let movieID = $(this).data("delete-id");
+  console.log("movieID", movieID);
+    fb.deleteMovie(movieID)
+    .then(function(data){
+    loadMoviesToDOM();
+  });
 });
+
+// $(document).on("click", ".delete-btn", function () {
+//   let songId = $(this).data("delete-id");
+//   console.log("songId", songId);
+//   console.log("button clicked");
+//     db.deleteSong(songId)
+//     .then(function(data){
+//       loadSongsToDOM();
+//     });
+// });
 
 
 
@@ -11758,7 +11789,9 @@ module.exports = HandlebarsCompiler.template({"1":function(container,depth0,help
     + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4(((helper = (helper = helpers.Title || (depth0 != null ? depth0.Title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Title","hash":{},"data":data}) : helper)))
-    + "</span><span id=\"data-delete-id\" class=\"chip deleteChip\">Delete<i class=\"close material-icons\">close</i></span>\n            <p><span>Year: </span><span id=\"movieYear"
+    + "</span><span data-delete-id=\""
+    + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
+    + "\" class=\"chip deleteChip\">Delete<i class=\"close material-icons\">close</i></span>\n            <p><span>Year: </span><span id=\"movieYear"
     + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4(((helper = (helper = helpers.Year || (depth0 != null ? depth0.Year : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Year","hash":{},"data":data}) : helper)))
