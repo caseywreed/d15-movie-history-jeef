@@ -21,7 +21,7 @@ let displayAll = function(movieResultsArray) {
     console.log("results", movieResultsArray);
     let movieList = {movies: movieResultsArray};
     $(".mhMain").html("");
-    $(".mhMain").html(savedTemplate(movieList));
+    $(".mhMain").append(savedTemplate(movieList));
     // $("#ssPop").prop('disabled', true);
   };
 
