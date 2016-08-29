@@ -55,6 +55,3 @@ $("#searchMovies").click(function() {
     // loadSongsToDOM();
 
 });
-
-// module.exports = {movieResultsArray};
-
