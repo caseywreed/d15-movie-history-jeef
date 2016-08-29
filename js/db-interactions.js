@@ -1,6 +1,7 @@
 "use strict";
 
 let $ = require('jquery'),
+    hb = require("./hbcontrols"),
     firebase = require("./firebaseConfig");
 
 function searchMovies(searchQuery) {
@@ -62,9 +63,8 @@ function secondMovieCall(movieData){
       url: `http://www.omdbapi.com/?t=${movieData[9]}&y=&plot=short&r=json`,
     })
     ]).then(function(data){
+    hb.displayAll(data);
       console.log(data);
-
-
     });
 }
 

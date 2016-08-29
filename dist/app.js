@@ -2,6 +2,7 @@
 "use strict";
 
 let $ = require('jquery'),
+    hb = require("./hbcontrols"),
     firebase = require("./firebaseConfig");
 
 function searchMovies(searchQuery) {
@@ -63,9 +64,8 @@ function secondMovieCall(movieData){
       url: `http://www.omdbapi.com/?t=${movieData[9]}&y=&plot=short&r=json`,
     })
     ]).then(function(data){
+    hb.displayAll(data);
       console.log(data);
-
-
     });
 }
 
@@ -77,7 +77,7 @@ function secondMovieCall(movieData){
 
 module.exports = { searchMovies, secondMovieCall };
 
-},{"./firebaseConfig":3,"jquery":31}],2:[function(require,module,exports){
+},{"./firebaseConfig":3,"./hbcontrols":4,"jquery":31}],2:[function(require,module,exports){
 "use strict";
 
 function getFbKey() {
@@ -11674,17 +11674,15 @@ var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"1":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "  <div class=\"card blue-grey darken-1\">\n          <div class=\"card-content white-text\">\n              <span class=\"card-title\">"
+  return "  <div class=\"col s4\">\n    <div class=\"card blue-grey darken-1 cardContainer\">\n      <div class=\"card-content white-text\">\n          <span class=\"card-title\">"
     + alias4(((helper = (helper = helpers.Title || (depth0 != null ? depth0.Title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Title","hash":{},"data":data}) : helper)))
-    + "</span><span class=\"chip deleteChip\">Delete<i class=\"close material-icons\">close</i></span>\n            <p>"
+    + "</span><span class=\"chip deleteChip\">Delete<i class=\"close material-icons\">close</i></span>\n            <p>Year: "
     + alias4(((helper = (helper = helpers.Year || (depth0 != null ? depth0.Year : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Year","hash":{},"data":data}) : helper)))
-    + "</p>\n            <p>"
+    + "</p>\n            <p>Actors: "
     + alias4(((helper = (helper = helpers.Actors || (depth0 != null ? depth0.Actors : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Actors","hash":{},"data":data}) : helper)))
-    + "</p>\n            <p>"
+    + "</p>\n            <p>Rating: "
     + alias4(((helper = (helper = helpers.imdbRating || (depth0 != null ? depth0.imdbRating : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbRating","hash":{},"data":data}) : helper)))
-    + "</p>\n            <p>"
-    + alias4(((helper = (helper = helpers.Watched || (depth0 != null ? depth0.Watched : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Watched","hash":{},"data":data}) : helper)))
-    + "</p>\n          </div>\n          <div class=\"card-action\">\n            <a href=\"#\">Add to Watchlist</a>\n            <a href=\"#\">Rating:</a>\n            <div class=\"ratingArea\">\n              <span class=\"rating\">RATE: </span><a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n            </div>\n          </div>\n  </div>\n";
+    + "</p>\n      </div>\n          <div class=\"card-action\">\n            <a href=\"#\">Add to Watchlist</a>\n            <br>\n            <div class=\"ratingArea\">\n              <span class=\"rating\">RATE: </span><a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              </div>\n          </div>\n    </div>\n  </div>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
