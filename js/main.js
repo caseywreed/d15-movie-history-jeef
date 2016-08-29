@@ -21,4 +21,16 @@ $("#loginLink").click(function() {
     // loadSongsToDOM();
   });
 });
+
+function buildMovieObj() {
+  let movieObj = {
+    uid: currentUser,
+    title: $("#form--title").val(),
+    actors: $("#form--actors").val(),
+    year: $("#form--year").val(),
+    rating: $("#form--rating").val(),
+    watched: null
+  };
+  return movieObj;
+}
 //****************************************************************
