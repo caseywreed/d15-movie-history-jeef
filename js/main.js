@@ -23,6 +23,8 @@ $("#loginLink").click(function() {
     // loadSongsToDOM();
   });
 });
+
+
 //****************************************************************
 
 
@@ -32,23 +34,23 @@ $("a").click(function(e){
 
 $("#searchMovies").click(function() {
   let searchQuery = $("#movieTitle").val();
-
-  // console.log("clicked search");
-  // console.log(searchQuery);
+  console.log("clicked search");
 
   db.searchMovies(searchQuery).then( function (movieTitles) {
-    movieResultsArray = [];
+    var movieTitlesArray = [];
     $.each(movieTitles.Search, function (index, key) {
-      let currentMovie = {
-        "Title": key.Title,
-        "Type": key.Type,
-        "Year": key.Year
-      };
-      movieResultsArray.push(currentMovie);
-      // console.log(movieResultsArray);
+      movieTitlesArray.push(key.Title);
     });
-    hb.displayAll(movieResultsArray);
+
+    for (var i = 0; i < movieTitlesArray.length; i++ ) {
+      movieTitlesArray[i] = movieTitlesArray[i].replace(/\s/g, '+');
+    }
+
+      console.log(movieTitlesArray);
+      db.secondMovieCall(movieTitlesArray);
   });
+
+
 
     // var token = result.credential.accessToken;
     // console.log("logged in user", user.uid);

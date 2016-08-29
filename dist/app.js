@@ -9,16 +9,73 @@ function searchMovies(searchQuery) {
     $.ajax({
       url: `http://www.omdbapi.com/?s=${searchQuery}&y=&plot=short&r=json&page=1`
     }).done(function(movieData) {
-      console.log(movieData.Search[0].Title);
+      console.log("movieData", movieData);
+      // console.log(movieArray.Object.Title);
+      // $.each(movieArray.Object.Search.Title);
+      // console.log("movieArray", movieArray);
       resolve(movieData);
+      var movieTitles = [];
+
+
+
+
+
+
+      // secondMovieCall(movieData);
+
     });
   });
 }
 
 
-module.exports = {
-  searchMovies
-};
+
+function secondMovieCall(movieData){
+  console.log("movie data", movieData);
+    Promise.all([
+    $.ajax({
+      url: `http://www.omdbapi.com/?t=${movieData[0]}&y=&pvlot=short&r=json`,
+    }),
+    $.ajax({
+      url: `http://www.omdbapi.com/?t=${movieData[1]}&y=&plot=short&r=json`,
+    }),
+    $.ajax({
+      url: `http://www.omdbapi.com/?t=${movieData[2]}&y=&plot=short&r=json`,
+    }),
+    $.ajax({
+      url: `http://www.omdbapi.com/?t=${movieData[3]}&y=&plot=short&r=json`,
+    }),
+    $.ajax({
+      url: `http://www.omdbapi.com/?t=${movieData[4]}&y=&plot=short&r=json`,
+    }),
+    $.ajax({
+      url: `http://www.omdbapi.com/?t=${movieData[5]}&y=&plot=short&r=json`,
+    }),
+    $.ajax({
+      url: `http://www.omdbapi.com/?t=${movieData[6]}&y=&plot=short&r=json`,
+    }),
+    $.ajax({
+      url: `http://www.omdbapi.com/?t=${movieData[7]}&y=&plot=short&r=json`,
+    }),
+    $.ajax({
+      url: `http://www.omdbapi.com/?t=${movieData[8]}&y=&plot=short&r=json`,
+    }),
+    $.ajax({
+      url: `http://www.omdbapi.com/?t=${movieData[9]}&y=&plot=short&r=json`,
+    })
+    ]).then(function(data){
+      console.log(data);
+
+
+    });
+}
+
+// function ajaxCalls () {
+//   Promise.all([
+//       $.each()
+//     ])
+// }
+
+module.exports = { searchMovies, secondMovieCall };
 
 },{"./firebaseConfig":3,"jquery":31}],2:[function(require,module,exports){
 "use strict";
@@ -110,6 +167,8 @@ $("#loginLink").click(function() {
     // loadSongsToDOM();
   });
 });
+
+
 //****************************************************************
 
 
@@ -119,32 +178,29 @@ $("a").click(function(e){
 
 $("#searchMovies").click(function() {
   let searchQuery = $("#movieTitle").val();
-
-  // console.log("clicked search");
-  // console.log(searchQuery);
+  console.log("clicked search");
 
   db.searchMovies(searchQuery).then( function (movieTitles) {
-    movieResultsArray = [];
+    var movieTitlesArray = [];
     $.each(movieTitles.Search, function (index, key) {
-      let currentMovie = {
-        "Title": key.Title,
-        "Type": key.Type,
-        "Year": key.Year
-      };
-      movieResultsArray.push(currentMovie);
-      // console.log(movieResultsArray);
+      movieTitlesArray.push(key.Title);
     });
-    hb.displayAll(movieResultsArray);
- });
+
+    for (var i = 0; i < movieTitlesArray.length; i++ ) {
+      movieTitlesArray[i] = movieTitlesArray[i].replace(/\s/g, '+');
+    }
+
+      console.log(movieTitlesArray);
+      db.secondMovieCall(movieTitlesArray);
+  });
+
+
 
     // var token = result.credential.accessToken;
     // console.log("logged in user", user.uid);
     // loadSongsToDOM();
 
 });
-
-// module.exports = {movieResultsArray};
-
 
 },{"./db-interactions":1,"./hbcontrols":4,"./user":6,"jquery":31}],6:[function(require,module,exports){
 "use strict";
