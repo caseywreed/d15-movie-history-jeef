@@ -2,16 +2,17 @@
 
 let $ = require('jquery'),
     hb = require("./hbcontrols"),
+    db = require("./db-interactions"),
     firebase = require("./firebaseConfig");
 
 
 
-function getSongs(callback) {
+function getMovies() {
   return new Promise(function (resolve, reject) {
     $.ajax({
-      url: 'https://music-history-54c84.firebaseio.com/songs.json',
-    }).done(function (songData) {
-      resolve(songData);
+      url: 'https://movie-history-7fd8a.firebaseio.com/movies.json',
+    }).done(function (movieData) {
+      resolve(movieData);
     });
   });
 }
@@ -31,10 +32,10 @@ function saveMovie(songFormObj) {
 }
 
 
-function deleteMovie(songId) {
+function deleteMovie(movieId) {
   return new Promise(function (resolve, reject) {
     $.ajax({
-      url: `https://music-history-54c84.firebaseio.com/songs/${songId}.json`,
+      url: `https://movie-history-7fd8a.firebaseio.com/movies/${movieId}.json`,
       type: 'DELETE'
     }).done(function (data) {
       resolve(data);
@@ -55,3 +56,5 @@ function getSong(songId) {
     });
   });
 }
+
+module.exports = {deleteMovie, getMovies};
