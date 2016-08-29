@@ -2,6 +2,8 @@
 
 let $ = require('jquery'),
     hb = require("./hbcontrols"),
+    login = require("./user"),
+    userId = "",
     firebase = require("./firebaseConfig");
 
 function searchMovies(searchQuery) {
@@ -10,24 +12,11 @@ function searchMovies(searchQuery) {
       url: `http://www.omdbapi.com/?s=${searchQuery}&y=&plot=short&r=json&page=1`
     }).done(function(movieData) {
       console.log("movieData", movieData);
-      // console.log(movieArray.Object.Title);
-      // $.each(movieArray.Object.Search.Title);
-      // console.log("movieArray", movieArray);
       resolve(movieData);
       var movieTitles = [];
-
-
-
-
-
-
-      // secondMovieCall(movieData);
-
     });
   });
 }
-
-
 
 function secondMovieCall(movieData){
   console.log("movie data", movieData);
@@ -64,14 +53,23 @@ function secondMovieCall(movieData){
     })
     ]).then(function(data){
     hb.displayAll(data);
-      console.log(data);
+      // console.log(data);
     });
 }
 
-// function ajaxCalls () {
-//   Promise.all([
-//       $.each()
-//     ])
-// }
+function buildMovieObject (movieID) {
 
-module.exports = { searchMovies, secondMovieCall };
+  let movieObj = {
+    Title: $(`#movieTitle${movieID}`).text(),
+    Year: $(`#movieYear${movieID}`).text(),
+    Actors: $(`#movieActors${movieID}`).text(),
+    Rating: $(`#movieRating${movieID}`).text(),
+    uid: userId,
+    movieID: movieID
+  };
+  console.log(movieObj);
+  return movieObj;
+}
+
+
+module.exports = { searchMovies, secondMovieCall, buildMovieObject };
