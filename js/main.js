@@ -2,6 +2,7 @@
 
 var $ = require('jquery'),
     db = require("./db-interactions"),
+    hb = require("./hbcontrols"),
     // templates = require("./dom-builder"),
     login = require("./user"),
     movieResultsArray = [];
@@ -44,11 +45,10 @@ $("#searchMovies").click(function() {
         "Year": key.Year
       };
       movieResultsArray.push(currentMovie);
+      // console.log(movieResultsArray);
     });
+    hb.displayAll(movieResultsArray);
   });
-
-
-
 
     // var token = result.credential.accessToken;
     // console.log("logged in user", user.uid);
