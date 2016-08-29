@@ -2,9 +2,10 @@
 
 var $ = require('jquery'),
     db = require("./db-interactions"),
+    fb = require("./fb-interactions"),
     hb = require("./hbcontrols"),
-    // templates = require("./dom-builder"),
     login = require("./user"),
+    firebase = require("firebase/app"),
     movieResultsArray = [];
 
 let userId = "";
@@ -52,14 +53,12 @@ $("#searchMovies").click(function() {
 
 });
 
-
 $(document).on("click", ".addButton", function() {
   let movieID = $(this).data("add-id");
-  db.buildMovieObject(movieID);
+  let movieObject = db.buildMovieObject(movieID);
+  fb.saveMovie(movieObject);
+  console.log("main 60 movie saved", movieObject);
 });
-
-
-
 
 $(document).on("click", ".deleteChip", function() {
   let movieID = $(this).data("add-id");

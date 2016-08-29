@@ -67,7 +67,7 @@ function buildMovieObject (movieID) {
     uid: userId,
     movieID: movieID
   };
-  console.log(movieObj);
+  // console.log("this is a moviemovieObj", movieObj);
   return movieObj;
 }
 
