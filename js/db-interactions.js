@@ -13,13 +13,11 @@ function searchMovies(searchQuery) {
     }).done(function(movieData) {
       console.log("movieData", movieData);
       resolve(movieData);
-      var movieTitles = [];
     });
   });
 }
 
 function secondMovieCall(movieData){
-  console.log("movie data", movieData);
     Promise.all([
     $.ajax({
       url: `http://www.omdbapi.com/?t=${movieData[0]}&y=&pvlot=short&r=json`,
@@ -59,7 +57,7 @@ function secondMovieCall(movieData){
 
 
 
-function buildMovieObject (movieID) {
+function buildMovieObject (movieID, userId) {
 
   let movieObj = {
     Title: $(`#movieTitle${movieID}`).text(),
@@ -67,7 +65,8 @@ function buildMovieObject (movieID) {
     Actors: $(`#movieActors${movieID}`).text(),
     Rating: $(`#movieRating${movieID}`).text(),
     uid: userId,
-    movieID: movieID
+    movieID: movieID,
+    fbId: null
   };
   // console.log("this is a moviemovieObj", movieObj);
   return movieObj;

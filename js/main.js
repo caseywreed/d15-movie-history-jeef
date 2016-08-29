@@ -6,14 +6,14 @@ let $ = require('jquery'),
     hb = require("./hbcontrols"),
     login = require("./user"),
     firebase = require("firebase/app"),
-    userId = null,
+    userId = "",
     movieResultsArray = [];
 
 
 function loadMoviesToDOM() {
- userId = firebase.auth().userId.uid;
+ // var userId = firebase.auth().userId.uid;
   $("hb-main").html("");
-  db.getMovies()
+  fb.getMovies()
   .then(function(movieData){
     var movieIdArr = Object.keys(movieData);
     movieIdArr.forEach(function(key){
@@ -31,7 +31,8 @@ $("#loginLink").click(function() {
   .then(function (result) {
     // var token = result.credential.accessToken;
     let user = result.user;
-    console.log("logged in user", user.uid);//uid is the key to building a proper firebase app!
+    console.log("logged in user", user.uid);
+    userId = user.uid;//uid is the key to building a proper firebase app!
     loadMoviesToDOM();
     // console.log("logged in user", user.uid);
     // userId = user.uid;
@@ -69,7 +70,7 @@ $("#searchMovies").click(function() {
 
 $(document).on("click", ".addButton", function() {
   let movieID = $(this).data("add-id");
-  let movieObject = db.buildMovieObject(movieID);
+  let movieObject = db.buildMovieObject(movieID, userId);
   fb.saveMovie(movieObject);
   console.log("main 60 movie saved", movieObject);
 });
@@ -97,10 +98,10 @@ $(document).on("click", ".deleteChip", function() {
 
 
 
-$(document).on("click", ".miscButton", function() {
-  let movieID = $(this).data("add-id");
-  db.buildMovieObject(movieID);
-});
+// $(document).on("click", ".miscButton", function() {
+//   let movieID = $(this).data("add-id");
+//   db.buildMovieObject(movieID);
+// });
 
 
 
