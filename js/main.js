@@ -55,23 +55,8 @@ $("#searchMovies").click(function() {
 
 $(document).on("click", ".addButton", function() {
   let movieID = $(this).data("add-id");
-  buildMovieObject(movieID);
+  db.buildMovieObject(movieID);
 });
-
-
-function buildMovieObject (movieID) {
-
-  let movieObj = {
-    Title: $(`#movieTitle${movieID}`).text(),
-    Year: $(`#movieYear${movieID}`).text(),
-    Actors: $(`#movieActors${movieID}`).text(),
-    Rating: $(`#movieRating${movieID}`).text(),
-    uid: userId,
-    movieID: movieID
-  };
-  console.log(movieObj);
-  return movieObj;
-}
 
 
 
