@@ -203,6 +203,23 @@ $(document).on("click", ".addButton", function() {
 
 
 
+$(document).on("click", ".deleteChip", function() {
+  let movieID = $(this).data("add-id");
+  db.buildMovieObject(movieID);
+});
+
+
+
+
+
+$(document).on("click", ".miscButton", function() {
+  let movieID = $(this).data("add-id");
+  db.buildMovieObject(movieID);
+});
+
+
+
+
 },{"./db-interactions":1,"./hbcontrols":4,"./user":6,"jquery":31}],6:[function(require,module,exports){
 "use strict";
 
