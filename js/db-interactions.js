@@ -27,6 +27,7 @@ function searchMovies(searchQuery) {
 }
 
 
+
 function secondMovieCall(movieData){
   console.log("movie data", movieData);
     Promise.all([

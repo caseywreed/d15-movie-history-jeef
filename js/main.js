@@ -2,6 +2,7 @@
 
 var $ = require('jquery'),
     db = require("./db-interactions"),
+    hb = require("./hbcontrols"),
     // templates = require("./dom-builder"),
     login = require("./user"),
     movieResultsArray = [];
