@@ -134,7 +134,7 @@ let displayAll = function(movieResultsArray) {
     console.log("results", movieResultsArray);
     let movieList = {movies: movieResultsArray};
     $(".mhMain").html("");
-    $(".mhMain").html(savedTemplate(movieList));
+    $(".mhMain").append(savedTemplate(movieList));
     // $("#ssPop").prop('disabled', true);
   };
 
@@ -194,13 +194,31 @@ $("#searchMovies").click(function() {
       db.secondMovieCall(movieTitlesArray);
   });
 
-
-
-    // var token = result.credential.accessToken;
-    // console.log("logged in user", user.uid);
-    // loadSongsToDOM();
-
 });
+
+
+$(document).on("click", ".addButton", function() {
+  let movieID = $(this).data("add-id");
+  buildMovieObject(movieID);
+});
+
+
+function buildMovieObject (movieID) {
+
+  let movieObj = {
+    Title: $(`#movieTitle${movieID}`).text(),
+    Year: $(`#movieYear${movieID}`).text(),
+    Actors: $(`#movieActors${movieID}`).text(),
+    Rating: $(`#movieRating${movieID}`).text(),
+    uid: userId,
+    movieID: movieID
+  };
+  console.log(movieObj);
+  return movieObj;
+}
+
+
+
 
 },{"./db-interactions":1,"./hbcontrols":4,"./user":6,"jquery":31}],6:[function(require,module,exports){
 "use strict";
@@ -11674,15 +11692,25 @@ var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"1":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "  <div class=\"col s4\">\n    <div class=\"card blue-grey darken-1 cardContainer\">\n      <div class=\"card-content white-text\">\n          <span class=\"card-title\">"
+  return "  <div class=\"col s4\">\n    <div class=\"card blue-grey darken-1 cardContainer\">\n      <div class=\"card-content white-text\">\n          <span class=\"card-title\" id=\"movieTitle"
+    + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
+    + "\">"
     + alias4(((helper = (helper = helpers.Title || (depth0 != null ? depth0.Title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Title","hash":{},"data":data}) : helper)))
-    + "</span><span class=\"chip deleteChip\">Delete<i class=\"close material-icons\">close</i></span>\n            <p>Year: "
+    + "</span><span id=\"data-delete-id\" class=\"chip deleteChip\">Delete<i class=\"close material-icons\">close</i></span>\n            <p><span>Year: </span><span id=\"movieYear"
+    + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
+    + "\">"
     + alias4(((helper = (helper = helpers.Year || (depth0 != null ? depth0.Year : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Year","hash":{},"data":data}) : helper)))
-    + "</p>\n            <p>Actors: "
+    + "</span></p>\n            <p><span>Actors: </span><span id=\"movieActors"
+    + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
+    + "\">"
     + alias4(((helper = (helper = helpers.Actors || (depth0 != null ? depth0.Actors : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Actors","hash":{},"data":data}) : helper)))
-    + "</p>\n            <p>Rating: "
-    + alias4(((helper = (helper = helpers.imdbRating || (depth0 != null ? depth0.imdbRating : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbRating","hash":{},"data":data}) : helper)))
-    + "</p>\n      </div>\n          <div class=\"card-action\">\n            <a href=\"#\">Add to Watchlist</a>\n            <br>\n            <div class=\"ratingArea\">\n              <span class=\"rating\">RATE: </span><a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              </div>\n          </div>\n    </div>\n  </div>\n";
+    + "</span></p>\n            <p><span>Rating: </span><span id=\"movieRating"
+    + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
+    + "\">"
+    + alias4(((helper = (helper = helpers.Rating || (depth0 != null ? depth0.Rating : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Rating","hash":{},"data":data}) : helper)))
+    + "</span></p>\n      </div>\n          <div class=\"card-action\">\n            <a data-add-id=\""
+    + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
+    + "\" href=\"#\" class=\"addButton\">Add to Watchlist</a>\n            <br>\n            <div class=\"ratingArea\">\n              <span class=\"rating\">RATE: </span><a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              <a href=\"#\" class=\"ratingStar\"><i class=\"tiny material-icons\">star</i></a>\n              </div>\n          </div>\n    </div>\n  </div>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
