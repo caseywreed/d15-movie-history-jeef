@@ -68,14 +68,14 @@ function buildMovieObject (movieID) {
     uid: userId,
     movieID: movieID
   };
-  console.log(movieObj);
+  // console.log("this is a moviemovieObj", movieObj);
   return movieObj;
 }
 
 
 module.exports = { searchMovies, secondMovieCall, buildMovieObject };
 
-},{"./firebaseConfig":3,"./hbcontrols":4,"./user":6,"jquery":31}],2:[function(require,module,exports){
+},{"./firebaseConfig":4,"./hbcontrols":5,"./user":7,"jquery":32}],2:[function(require,module,exports){
 "use strict";
 
 function getFbKey() {
@@ -88,6 +88,69 @@ function getFbKey() {
 module.exports = getFbKey;
 
 },{}],3:[function(require,module,exports){
+"use strict";
+
+let $ = require('jquery'),
+    hb = require("./hbcontrols"),
+    db = require("./db-interactions"),
+    firebase = require("./firebaseConfig");
+
+
+
+function getSongs(callback) {
+  return new Promise(function (resolve, reject) {
+    $.ajax({
+      url: 'https://music-history-54c84.firebaseio.com/songs.json',
+    }).done(function (songData) {
+      resolve(songData);
+    });
+  });
+}
+
+
+function saveMovie(movieObj) {
+  // console.log("fb 22 movie object", movieObj);
+  return new Promise(function (resolve, reject) {
+    $.ajax({
+      url: 'https://movie-history-7fd8a.firebaseio.com/movies.json',
+      type: 'POST',  // used for first time posting to DB
+      data: JSON.stringify(movieObj),
+      dataType: 'json'
+    }).done(function (movieID) {
+      resolve(movieID);
+    });
+  });
+}
+
+
+function deleteMovie(songId) {
+  return new Promise(function (resolve, reject) {
+    $.ajax({
+      url: `https://music-history-54c84.firebaseio.com/songs/${songId}.json`,
+      type: 'DELETE'
+    }).done(function (data) {
+      resolve(data);
+    });
+  });
+}
+
+
+function getSong(songId) {
+  return new Promise(function (resolve, reject) {
+  $.ajax({
+      url: `https://music-history-54c84.firebaseio.com/songs/${songId}.json`
+    }).done(function (songData) {
+      console.log("songData", songData);
+      resolve(songData);
+    }).fail(function(error) {
+      reject(error);
+    });
+  });
+}
+
+module.exports = {saveMovie};
+
+},{"./db-interactions":1,"./firebaseConfig":4,"./hbcontrols":5,"jquery":32}],4:[function(require,module,exports){
 "use strict";
 
 let firebase = require("firebase/app"),
@@ -108,7 +171,7 @@ firebase.initializeApp(config);
 
 module.exports = firebase;
 
-},{"./fb-getter":2,"firebase/app":7,"firebase/auth":8}],4:[function(require,module,exports){
+},{"./fb-getter":2,"firebase/app":8,"firebase/auth":9}],5:[function(require,module,exports){
 "use strict";
 
 let $ = require('jquery');
@@ -139,14 +202,15 @@ let displayAll = function(movieResultsArray) {
 module.exports = {displayAll};
 
 
-},{"../templates/final-card.hbs":32,"../templates/movie-list.hbs":33,"hbsfy/runtime":30,"jquery":31}],5:[function(require,module,exports){
+},{"../templates/final-card.hbs":33,"../templates/movie-list.hbs":34,"hbsfy/runtime":31,"jquery":32}],6:[function(require,module,exports){
 "use strict";
 
 var $ = require('jquery'),
     db = require("./db-interactions"),
+    fb = require("./fb-interactions"),
     hb = require("./hbcontrols"),
-    // templates = require("./dom-builder"),
     login = require("./user"),
+    firebase = require("firebase/app"),
     movieResultsArray = [];
 
 let userId = "";
@@ -194,14 +258,12 @@ $("#searchMovies").click(function() {
 
 });
 
-
 $(document).on("click", ".addButton", function() {
   let movieID = $(this).data("add-id");
-  db.buildMovieObject(movieID);
+  let movieObject = db.buildMovieObject(movieID);
+  fb.saveMovie(movieObject);
+  console.log("main 60 movie saved", movieObject);
 });
-
-
-
 
 $(document).on("click", ".deleteChip", function() {
   let movieID = $(this).data("add-id");
@@ -220,7 +282,7 @@ $(document).on("click", ".miscButton", function() {
 
 
 
-},{"./db-interactions":1,"./hbcontrols":4,"./user":6,"jquery":31}],6:[function(require,module,exports){
+},{"./db-interactions":1,"./fb-interactions":3,"./hbcontrols":5,"./user":7,"firebase/app":8,"jquery":32}],7:[function(require,module,exports){
 "use strict";
 
 let firebase = require("./firebaseConfig"),
@@ -233,7 +295,7 @@ function logInGoogle() {
 
 module.exports = logInGoogle;
 
-},{"./firebaseConfig":3}],7:[function(require,module,exports){
+},{"./firebaseConfig":4}],8:[function(require,module,exports){
 /**
  *  Firebase app for browser npm package.
  *
@@ -244,7 +306,7 @@ module.exports = logInGoogle;
 require('./firebase-app');
 module.exports = firebase;
 
-},{"./firebase-app":9}],8:[function(require,module,exports){
+},{"./firebase-app":10}],9:[function(require,module,exports){
 /**
  *  Firebase auth for browser npm package.
  *
@@ -256,7 +318,7 @@ require('./firebase-app');
 require('./firebase-auth');
 module.exports = firebase.auth;
 
-},{"./firebase-app":9,"./firebase-auth":10}],9:[function(require,module,exports){
+},{"./firebase-app":10,"./firebase-auth":11}],10:[function(require,module,exports){
 (function (global){
 /*! @license Firebase v3.3.0
     Build: 3.3.0-rc.7
@@ -288,7 +350,7 @@ function Ia(a,b){b=b||{};b={noApp:"No Firebase App '"+b.name+"' has been created
 firebase.SDK_VERSION = "3.3.0";
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /*! @license Firebase v3.3.0
     Build: 3.3.0-rc.7
     Terms: https://developers.google.com/terms */
@@ -507,7 +569,7 @@ V(Rf,"credential",Rf.credential,[sh(U(),nh(),"token")]);uh(Sf.prototype,{addScop
 (function(){if("undefined"!==typeof firebase&&firebase.INTERNAL&&firebase.INTERNAL.registerService){var a={Auth:Y,Error:R};V(a,"EmailAuthProvider",Xf,[]);V(a,"FacebookAuthProvider",Qf,[]);V(a,"GithubAuthProvider",Rf,[]);V(a,"GoogleAuthProvider",Sf,[]);V(a,"TwitterAuthProvider",Tf,[]);firebase.INTERNAL.registerService("auth",function(a,c){a=new Y(a);c({INTERNAL:{getToken:r(a.getToken,a),addAuthTokenListener:r(a.addAuthTokenListener,a),removeAuthTokenListener:r(a.removeAuthTokenListener,a)}});return a},
 a,function(a,c){if("create"===a)try{c.auth()}catch(d){}});firebase.INTERNAL.extendNamespace({User:W})}else throw Error("Cannot find the firebase namespace; be sure to include firebase-app.js before this library.");})();})();
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -575,7 +637,7 @@ exports['default'] = inst;
 module.exports = exports['default'];
 
 
-},{"./handlebars/base":12,"./handlebars/exception":15,"./handlebars/no-conflict":25,"./handlebars/runtime":26,"./handlebars/safe-string":27,"./handlebars/utils":28}],12:[function(require,module,exports){
+},{"./handlebars/base":13,"./handlebars/exception":16,"./handlebars/no-conflict":26,"./handlebars/runtime":27,"./handlebars/safe-string":28,"./handlebars/utils":29}],13:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -681,7 +743,7 @@ exports.createFrame = _utils.createFrame;
 exports.logger = _logger2['default'];
 
 
-},{"./decorators":13,"./exception":15,"./helpers":16,"./logger":24,"./utils":28}],13:[function(require,module,exports){
+},{"./decorators":14,"./exception":16,"./helpers":17,"./logger":25,"./utils":29}],14:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -699,7 +761,7 @@ function registerDefaultDecorators(instance) {
 }
 
 
-},{"./decorators/inline":14}],14:[function(require,module,exports){
+},{"./decorators/inline":15}],15:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -730,7 +792,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../utils":28}],15:[function(require,module,exports){
+},{"../utils":29}],16:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -772,7 +834,7 @@ exports['default'] = Exception;
 module.exports = exports['default'];
 
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -820,7 +882,7 @@ function registerDefaultHelpers(instance) {
 }
 
 
-},{"./helpers/block-helper-missing":17,"./helpers/each":18,"./helpers/helper-missing":19,"./helpers/if":20,"./helpers/log":21,"./helpers/lookup":22,"./helpers/with":23}],17:[function(require,module,exports){
+},{"./helpers/block-helper-missing":18,"./helpers/each":19,"./helpers/helper-missing":20,"./helpers/if":21,"./helpers/log":22,"./helpers/lookup":23,"./helpers/with":24}],18:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -861,7 +923,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../utils":28}],18:[function(require,module,exports){
+},{"../utils":29}],19:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -957,7 +1019,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../exception":15,"../utils":28}],19:[function(require,module,exports){
+},{"../exception":16,"../utils":29}],20:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -984,7 +1046,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../exception":15}],20:[function(require,module,exports){
+},{"../exception":16}],21:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1015,7 +1077,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../utils":28}],21:[function(require,module,exports){
+},{"../utils":29}],22:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1043,7 +1105,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1057,7 +1119,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1092,7 +1154,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../utils":28}],24:[function(require,module,exports){
+},{"../utils":29}],25:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1141,7 +1203,7 @@ exports['default'] = logger;
 module.exports = exports['default'];
 
 
-},{"./utils":28}],25:[function(require,module,exports){
+},{"./utils":29}],26:[function(require,module,exports){
 (function (global){
 /* global window */
 'use strict';
@@ -1165,7 +1227,7 @@ module.exports = exports['default'];
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1459,7 +1521,7 @@ function executeDecorators(fn, prog, container, depths, data, blockParams) {
 }
 
 
-},{"./base":12,"./exception":15,"./utils":28}],27:[function(require,module,exports){
+},{"./base":13,"./exception":16,"./utils":29}],28:[function(require,module,exports){
 // Build out our basic SafeString type
 'use strict';
 
@@ -1476,7 +1538,7 @@ exports['default'] = SafeString;
 module.exports = exports['default'];
 
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1602,15 +1664,15 @@ function appendContextPath(contextPath, id) {
 }
 
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 // Create a simple path alias to allow browserify to resolve
 // the runtime on a supported path.
 module.exports = require('./dist/cjs/handlebars.runtime')['default'];
 
-},{"./dist/cjs/handlebars.runtime":11}],30:[function(require,module,exports){
+},{"./dist/cjs/handlebars.runtime":12}],31:[function(require,module,exports){
 module.exports = require("handlebars/runtime")["default"];
 
-},{"handlebars/runtime":29}],31:[function(require,module,exports){
+},{"handlebars/runtime":30}],32:[function(require,module,exports){
 /*eslint-disable no-unused-vars*/
 /*!
  * jQuery JavaScript Library v3.1.0
@@ -11686,7 +11748,7 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"1":function(container,depth0,helpers,partials,data) {
@@ -11717,7 +11779,7 @@ module.exports = HandlebarsCompiler.template({"1":function(container,depth0,help
   return ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.movies : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"useData":true});
 
-},{"hbsfy/runtime":30}],33:[function(require,module,exports){
+},{"hbsfy/runtime":31}],34:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"1":function(container,depth0,helpers,partials,data) {
@@ -11736,4 +11798,4 @@ module.exports = HandlebarsCompiler.template({"1":function(container,depth0,help
   return ((stack1 = helpers.each.call(depth0 != null ? depth0 : {},(depth0 != null ? depth0.movies : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
 },"useData":true});
 
-},{"hbsfy/runtime":30}]},{},[5]);
+},{"hbsfy/runtime":31}]},{},[6]);

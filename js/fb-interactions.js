@@ -2,6 +2,7 @@
 
 let $ = require('jquery'),
     hb = require("./hbcontrols"),
+    db = require("./db-interactions"),
     firebase = require("./firebaseConfig");
 
 
@@ -17,15 +18,16 @@ function getSongs(callback) {
 }
 
 
-function saveMovie(songFormObj) {
+function saveMovie(movieObj) {
+  // console.log("fb 22 movie object", movieObj);
   return new Promise(function (resolve, reject) {
     $.ajax({
-      url: 'https://music-history-54c84.firebaseio.com/songs.json',
+      url: 'https://movie-history-7fd8a.firebaseio.com/movies.json',
       type: 'POST',  // used for first time posting to DB
-      data: JSON.stringify(songFormObj),
+      data: JSON.stringify(movieObj),
       dataType: 'json'
-    }).done(function (songId) {
-      resolve(songId);
+    }).done(function (movieID) {
+      resolve(movieID);
     });
   });
 }
@@ -55,3 +57,5 @@ function getSong(songId) {
     });
   });
 }
+
+module.exports = {saveMovie};
