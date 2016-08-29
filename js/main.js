@@ -23,17 +23,7 @@ $("#loginLink").click(function() {
   });
 });
 
-function buildMovieObj() {
-  let movieObj = {
-    uid: currentUser,
-    title: $("#form--title").val(),
-    actors: $("#form--actors").val(),
-    year: $("#form--year").val(),
-    rating: $("#form--rating").val(),
-    watched: null
-  };
-  return movieObj;
-}
+
 //****************************************************************
 
 
@@ -43,22 +33,21 @@ $("a").click(function(e){
 
 $("#searchMovies").click(function() {
   let searchQuery = $("#movieTitle").val();
-
-  // console.log("clicked search");
-  // console.log(searchQuery);
+  console.log("clicked search");
 
   db.searchMovies(searchQuery).then( function (movieTitles) {
-    movieResultsArray = [];
+    var movieTitlesArray = [];
     $.each(movieTitles.Search, function (index, key) {
-      let currentMovie = {
-        "Title": key.Title,
-        "Type": key.Type,
-        "Year": key.Year
-      };
-      movieResultsArray.push(currentMovie);
+      movieTitlesArray.push(key.Title);
     });
-  });
 
+    for (var i = 0; i < movieTitlesArray.length; i++ ) {
+      movieTitlesArray[i] = movieTitlesArray[i].replace(/\s/g, '+');
+    }
+
+      console.log(movieTitlesArray);
+      db.secondMovieCall(movieTitlesArray);
+  });
 
 
 
