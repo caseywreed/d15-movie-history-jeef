@@ -60,3 +60,20 @@ $(document).on("click", ".addButton", function() {
 
 
 
+
+$(document).on("click", ".deleteChip", function() {
+  let movieID = $(this).data("add-id");
+  db.buildMovieObject(movieID);
+});
+
+
+
+
+
+$(document).on("click", ".miscButton", function() {
+  let movieID = $(this).data("add-id");
+  db.buildMovieObject(movieID);
+});
+
+
+
