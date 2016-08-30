@@ -32,7 +32,8 @@ $("#loginLink").click(function(evt) {
   $('#loginLink').off('click');
   login()
   .then(function (result) {
-    $('#loginLink').children('a').html('Logout').parent().attr('id',"logOut");
+    // $('#loginLink').children('a').html('Logout').parent().attr('id',"logOut");
+     $('#loginLink').html('Logout').attr('id',"logOut");
     // var token = result.credential.accessToken;
     user = result.user;
     console.log(user);
