@@ -109,12 +109,15 @@ function sortUnwatched () {
   .then(function (fbMovieData) {
     // console.log("fbMovieData", fbMovieData)
     for (var movie in fbMovieData) {
-      if (!fbMovieData[movie].Rating) {
+      if (fbMovieData[movie].Rating === 0) {
         selectedUserMovies.push(fbMovieData[movie])
       }
     }
     // console.log("selectedUserMovies", selectedUserMovies)
     hb.displayAll(selectedUserMovies)
+    .then(function () {
+     setRating($('.rating'), selectedUserMovies);
+   });
   })
 }
 
@@ -130,6 +133,9 @@ function sortWatched () {
     }
     // console.log("selectedUserMovies", selectedUserMovies)
     hb.displayAll(selectedUserMovies)
+    .then(function (movieResultsArray) {
+     setRating($('.rating'), movieResultsArray);
+   });
   })
 }
 
@@ -146,6 +152,9 @@ function sortByRating () {
     }
     // console.log("selectedUserMovies", selectedUserMovies)
     hb.displayAll(selectedUserMovies)
+    .then(function () {
+     setRating($('.rating'), selectedUserMovies);
+   });
   })
 }
 
