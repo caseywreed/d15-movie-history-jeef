@@ -75,10 +75,22 @@ $("#searchMovies").click(function() {
 
 });
 
-$("#untracked-button").click(function () {})
-$("#unwatched-button").click(function () {})
-$("#watched-button").click(function () {})
-$("#favorites-button").click(function () {})
+$("#untracked-button").click(function () {
+  $(".breadcrumb-target").html("Search Field (Including Movies You've Saved)")
+})
+
+$("#unwatched-button").click(function () {
+  $(".breadcrumb-target").html("Your Unwatched Movies")
+})
+
+$("#watched-button").click(function () {
+  $(".breadcrumb-target").html("Your Watched Movies")
+})
+
+$("#rating-slider").on("change", function () {
+  let currentRating = $("#rating-slider").val()
+  $(".breadcrumb-target").html(`Movies You've Rated ${currentRating} Stars`)
+})
 
 
 
