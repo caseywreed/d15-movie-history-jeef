@@ -52,7 +52,7 @@ $("a").click(function(e){
 $("#searchMovies").click(function() {
   let searchQuery = $("#movieTitleInput").val();
   console.log("clicked search");
-
+  debugger;
   db.searchMovies(searchQuery).then( function (movieTitles) {
     var movieTitlesArray = [];
     $.each(movieTitles.Search, function (index, key) {
@@ -139,5 +139,3 @@ $(document).on("click", ".deleteChip", function() {
     loadMoviesToDOM();
   });
 });
-
-
