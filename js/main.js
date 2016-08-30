@@ -13,7 +13,7 @@ let $ = require('jquery'),
     user;
 
 
-function loadMoviesToDOM() {
+function loadIntialMoviesToDOM() {
  // var userId = firebase.auth().userId.uid;
   $("hb-main").html("");
   fb.getMovies(userId)
@@ -43,7 +43,7 @@ $("#loginLink").click(function(evt) {
     console.log(user);
     console.log("logged in user", user.uid);
     userId = user.uid;//uid is the key to building a proper firebase app!
-    loadMoviesToDOM();
+    loadIntialMoviesToDOM();
     // console.log("logged in user", user.uid);
     // userId = user.uid;
     // loadSongsToDOM();
@@ -157,11 +157,11 @@ $(document).on("click", ".addButton", function() {
   console.log("main 60 movie saved", movieObject);
 });
 
-$(document).on("click", ".deleteChip", function() {
+$(document).on("click", ".deleteChip", function(evt) {
   let movieID = $(this).data("delete-id");
   console.log("movieID", movieID);
     fb.deleteMovie(movieID)
-    .then(function(data){
-    loadMoviesToDOM();
+    .then(function(){
+      $(`#movieCard${movieID}`).remove();
   });
 });
