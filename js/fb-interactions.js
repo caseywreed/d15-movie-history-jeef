@@ -7,10 +7,10 @@ let $ = require('jquery'),
 
 
 
-function getMovies() {
+function getMovies(userID) {
   return new Promise(function (resolve, reject) {
     $.ajax({
-      url: 'https://cat-ladies-movie-history.firebaseio.com/movies.json',
+      url: `https://cat-ladies-movie-history.firebaseio.com/movies.json?orderBy="uid"&equalTo="${userID}"`,
     }).done(function (movieData) {
       resolve(movieData);
     });
