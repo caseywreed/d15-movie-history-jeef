@@ -11785,21 +11785,21 @@ var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"1":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "  <div class=\"col s4\">\n    <div class=\"card blue-grey darken-1 cardContainer\">\n      <div class=\"card-content white-text\">\n          <span class=\"card-title\" id=\"movieTitle"
+  return "  <div class=\"col s4\">\n    <div class=\"card blue-grey darken-1 cardContainer\">\n      <div class=\"card-content white-text\">\n        <span data-delete-id=\""
+    + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
+    + "\" class=\"chip deleteChip\">Delete<i class=\"close material-icons\">close</i></span>\n        <span class=\"card-title\" id=\"movieTitle"
     + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4(((helper = (helper = helpers.Title || (depth0 != null ? depth0.Title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Title","hash":{},"data":data}) : helper)))
-    + "</span><span data-delete-id=\""
-    + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
-    + "\" class=\"chip deleteChip\">Delete<i class=\"close material-icons\">close</i></span>\n            <p><span>Year: </span><span id=\"movieYear"
+    + "</span>\n        <p><span>Year: </span><span id=\"movieYear"
     + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4(((helper = (helper = helpers.Year || (depth0 != null ? depth0.Year : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Year","hash":{},"data":data}) : helper)))
-    + "</span></p>\n            <p><span>Actors: </span><span id=\"movieActors"
+    + "</span></p>\n        <p><span>Actors: </span><span id=\"movieActors"
     + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4(((helper = (helper = helpers.Actors || (depth0 != null ? depth0.Actors : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Actors","hash":{},"data":data}) : helper)))
-    + "</span></p>\n            <p><span>Rating: </span><span id=\"movieRating"
+    + "</span></p>\n        <p><span>Rating: </span><span id=\"movieRating"
     + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4(((helper = (helper = helpers.Rating || (depth0 != null ? depth0.Rating : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Rating","hash":{},"data":data}) : helper)))
