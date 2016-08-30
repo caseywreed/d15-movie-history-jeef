@@ -9,7 +9,7 @@ let $ = require('jquery'),
 function searchMovies(searchQuery) {
   return new Promise( function (resolve, reject) {
     $.ajax({
-      url: `http://www.omdbapi.com/?s=${searchQuery}&y=&plot=short&r=json&page=1`
+      url: `http://www.omdbapi.com/?s=${searchQuery}&y=&plot=short&type=movie&r=json&page=1`
     }).done(function(movieData) {
       console.log("movieData", movieData);
       resolve(movieData);
