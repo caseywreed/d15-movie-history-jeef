@@ -14,7 +14,7 @@ let $ = require('jquery'),
 function loadMoviesToDOM() {
  // var userId = firebase.auth().userId.uid;
   $("hb-main").html("");
-  fb.getMovies()
+  fb.getMovies(userId)
   .then(function(movieData){
     var movieIdArr = Object.keys(movieData);
     movieIdArr.forEach(function(key, val){
@@ -26,10 +26,12 @@ function loadMoviesToDOM() {
 }
 //***************************************************************
 // User login section. Should ideally be in its own module
-$("#loginLink").click(function() {
+$("#loginLink").click(function(evt) {
   console.log("clicked auth");
+  $('#loginLink').off('click');
   login()
   .then(function (result) {
+    $('#loginLink').children('a').html('Logout').parent().attr('id',"logOut");
     // var token = result.credential.accessToken;
     let user = result.user;
     console.log("logged in user", user.uid);
