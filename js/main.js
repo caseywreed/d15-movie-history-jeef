@@ -104,13 +104,13 @@ $("#rating-slider").on("change", function () {
 })
 
 function sortUnwatched () {
-  let selectedUserMovies = []
+  let selectedUserMovies = {}
   fb.getMovies(userId)
   .then(function (fbMovieData) {
     // console.log("fbMovieData", fbMovieData)
     for (var movie in fbMovieData) {
       if (fbMovieData[movie].Rating === 0) {
-        selectedUserMovies.push(fbMovieData[movie])
+        selectedUserMovies[movie] = fbMovieData[movie];
       }
     }
     // console.log("selectedUserMovies", selectedUserMovies)
@@ -122,19 +122,19 @@ function sortUnwatched () {
 }
 
 function sortWatched () {
-  let selectedUserMovies = []
+  let selectedUserMovies = {}
   fb.getMovies(userId)
   .then(function (fbMovieData) {
     // console.log("fbMovieData", fbMovieData)
     for (var movie in fbMovieData) {
       if (fbMovieData[movie].Rating) {
-        selectedUserMovies.push(fbMovieData[movie])
+        selectedUserMovies[movie] = fbMovieData[movie];
       }
     }
-    // console.log("selectedUserMovies", selectedUserMovies)
+    console.log("selectedUserMovies", selectedUserMovies)
     hb.displayAll(selectedUserMovies)
-    .then(function (movieResultsArray) {
-     setRating($('.rating'), movieResultsArray);
+    .then(function (movieResults) {
+     setRating($('.rating'), movieResults);
    });
   })
 }

@@ -7,16 +7,17 @@ var movieTemplate = require('../templates/movie-list.hbs');
 var savedTemplate = require('../templates/final-card.hbs');
 
 
-let displayAll = function(movieResultsArray) {
+let displayAll = function(movieResults) {
     return new Promise(function(resolve, reject){
         // GROSS!
-      for (var movie in movieResultsArray.movies) {
-        movieResultsArray.movies[movie].id = movie
-      }
-      let movieList = {movies: movieResultsArray};
+      var movieIdArr = Object.keys(movieResults);
+      movieIdArr.forEach(function(key, val){
+        movieResults[key].id = key;
+      });
+      let movieList = {movies: movieResults};
       $(".mhMain").html("");
       $(".mhMain").append(savedTemplate(movieList));
-      resolve(movieResultsArray);
+      resolve(movieResults);
     })
   };
 
