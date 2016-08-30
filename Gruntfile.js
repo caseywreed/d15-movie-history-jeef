@@ -18,7 +18,8 @@ module.exports = function(grunt) {
         globalstrict: true,
         globals: {},
         browserify: true,
-        debug: true
+        debug: true,
+        asi: true
       },
       files: ['./js/**/*.js']
     },
