@@ -45,18 +45,5 @@ function deleteMovie(movieId) {
 }
 
 
-function getSong(songId) {
-  return new Promise(function (resolve, reject) {
-  $.ajax({
-      url: `https://music-history-54c84.firebaseio.com/songs/${songId}.json`
-    }).done(function (songData) {
-      console.log("songData", songData);
-      resolve(songData);
-    }).fail(function(error) {
-      reject(error);
-    });
-  });
-}
-
 
 module.exports = {saveMovie, deleteMovie, getMovies};

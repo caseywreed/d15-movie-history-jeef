@@ -136,19 +136,6 @@ function deleteMovie(movieId) {
 }
 
 
-function getSong(songId) {
-  return new Promise(function (resolve, reject) {
-  $.ajax({
-      url: `https://music-history-54c84.firebaseio.com/songs/${songId}.json`
-    }).done(function (songData) {
-      console.log("songData", songData);
-      resolve(songData);
-    }).fail(function(error) {
-      reject(error);
-    });
-  });
-}
-
 
 module.exports = {saveMovie, deleteMovie, getMovies};
 
@@ -214,6 +201,7 @@ let $ = require('jquery'),
     login = require("./user"),
     firebase = require("firebase/app"),
     userId = "",
+    myMovies = [],
     movieResultsArray = [];
 
 
@@ -223,7 +211,7 @@ function loadMoviesToDOM() {
   fb.getMovies()
   .then(function(movieData){
     var movieIdArr = Object.keys(movieData);
-    movieIdArr.forEach(function(key){
+    movieIdArr.forEach(function(key, val){
       movieData[key].id = key;
     });
     console.log("movie obj with ID added", movieData);
@@ -275,6 +263,61 @@ $("#searchMovies").click(function() {
 
 });
 
+
+
+
+
+//************ was working on comparing firebase movie ID to
+//************ OMBD movie ID, checking if they were the same,
+//************ and omitting duplicates.  Didn't finish
+
+// $("#searchMovies").click(function() {
+//   myMovies = [];
+//   let searchQuery = $("#movieTitleInput").val();
+//   console.log("clicked search");
+
+//    fb.getMovies()
+//     .then(function(movieData){
+//       $.each(movieData, function(key, val) {
+//         $.each(val, function (moreKeys, moreVals) {
+//           if (moreKeys === "movieID") {
+//             myMovies.push(moreVals);
+//           }
+//         });
+//       });
+//    }).then(function () {
+//     db.searchMovies(searchQuery).then( function (movieTitles) {
+//       var movieTitlesArray = [];
+//       for (var j = 0; j < movieTitles.Search.length; j++) {
+//         var a = movieTitles.Search[j].imdbID;
+//         for (var h = 0; h < myMovies.length; h++) {
+//           var b = myMovies[h];
+//           if (a === b) {
+//             console.log("match", a, b);
+//           } else {
+//             console.log(movieTitles.Search[j].Title);
+//           }
+//         }
+//       }
+
+//       $.each(movieTitles.Search, function (index, key) {
+//         movieTitlesArray.push(key.Title);
+//       });
+
+//       for (var i = 0; i < movieTitlesArray.length; i++ ) {
+//         movieTitlesArray[i] = movieTitlesArray[i].replace(/\s/g, '+');
+//       }
+
+//         console.log(movieTitlesArray);
+//         db.secondMovieCall(movieTitlesArray);
+//     });
+//    });
+// });
+//*******************************************
+
+
+
+
 $(document).on("click", ".addButton", function() {
   let movieID = $(this).data("add-id");
   let movieObject = db.buildMovieObject(movieID, userId);
@@ -290,26 +333,6 @@ $(document).on("click", ".deleteChip", function() {
     loadMoviesToDOM();
   });
 });
-
-// $(document).on("click", ".delete-btn", function () {
-//   let songId = $(this).data("delete-id");
-//   console.log("songId", songId);
-//   console.log("button clicked");
-//     db.deleteSong(songId)
-//     .then(function(data){
-//       loadSongsToDOM();
-//     });
-// });
-
-
-
-
-
-// $(document).on("click", ".miscButton", function() {
-//   let movieID = $(this).data("add-id");
-//   db.buildMovieObject(movieID);
-// });
-
 
 
 
@@ -11785,21 +11808,21 @@ var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"1":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
 
-  return "  <div class=\"col s4\">\n    <div class=\"card blue-grey darken-1 cardContainer\">\n      <div class=\"card-content white-text\">\n          <span class=\"card-title\" id=\"movieTitle"
+  return "  <div class=\"col s4\">\n    <div class=\"card blue-grey darken-1 cardContainer\">\n      <div class=\"card-content white-text\">\n        <span data-delete-id=\""
+    + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\" class=\"chip deleteChip\">Delete<i class=\"close material-icons\">close</i></span>\n        <span class=\"card-title\" id=\"movieTitle"
     + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4(((helper = (helper = helpers.Title || (depth0 != null ? depth0.Title : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Title","hash":{},"data":data}) : helper)))
-    + "</span><span data-delete-id=\""
-    + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
-    + "\" class=\"chip deleteChip\">Delete<i class=\"close material-icons\">close</i></span>\n            <p><span>Year: </span><span id=\"movieYear"
+    + "</span>\n        <p><span>Year: </span><span id=\"movieYear"
     + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4(((helper = (helper = helpers.Year || (depth0 != null ? depth0.Year : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Year","hash":{},"data":data}) : helper)))
-    + "</span></p>\n            <p><span>Actors: </span><span id=\"movieActors"
+    + "</span></p>\n        <p><span>Actors: </span><span id=\"movieActors"
     + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4(((helper = (helper = helpers.Actors || (depth0 != null ? depth0.Actors : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Actors","hash":{},"data":data}) : helper)))
-    + "</span></p>\n            <p><span>Rating: </span><span id=\"movieRating"
+    + "</span></p>\n        <p><span>Rating: </span><span id=\"movieRating"
     + alias4(((helper = (helper = helpers.imdbID || (depth0 != null ? depth0.imdbID : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imdbID","hash":{},"data":data}) : helper)))
     + "\">"
     + alias4(((helper = (helper = helpers.Rating || (depth0 != null ? depth0.Rating : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"Rating","hash":{},"data":data}) : helper)))
