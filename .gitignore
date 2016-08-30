@@ -3,4 +3,4 @@ node_modules
 dist
 js/fb-getter.js
 css/
-bower-components/
+bower_components/
