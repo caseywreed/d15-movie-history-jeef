@@ -6,6 +6,7 @@ let $ = require('jquery'),
     hb = require("./hbcontrols"),
     login = require("./user"),
     firebase = require("firebase/app"),
+    setRating = require("./rating"),
     userId = "",
     myMovies = [],
     movieResultsArray = [],
@@ -22,7 +23,10 @@ function loadMoviesToDOM() {
       movieData[key].id = key;
     });
     console.log("movie obj with ID added", movieData);
-    hb.displayAll(movieData);
+    hb.displayAll(movieData)
+    .then(function(){
+      setRating($('.rating'), movieData);
+    });
   });
 }
 //***************************************************************
