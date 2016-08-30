@@ -98,10 +98,10 @@ let $ = require('jquery'),
 
 
 
-function getMovies() {
+function getMovies(userID) {
   return new Promise(function (resolve, reject) {
     $.ajax({
-      url: 'https://cat-ladies-movie-history.firebaseio.com/movies.json',
+      url: `https://cat-ladies-movie-history.firebaseio.com/movies.json?orderBy="uid"&equalTo="${userID}"`,
     }).done(function (movieData) {
       resolve(movieData);
     });
@@ -208,7 +208,7 @@ let $ = require('jquery'),
 function loadMoviesToDOM() {
  // var userId = firebase.auth().userId.uid;
   $("hb-main").html("");
-  fb.getMovies()
+  fb.getMovies(userId)
   .then(function(movieData){
     var movieIdArr = Object.keys(movieData);
     movieIdArr.forEach(function(key, val){
@@ -220,10 +220,12 @@ function loadMoviesToDOM() {
 }
 //***************************************************************
 // User login section. Should ideally be in its own module
-$("#loginLink").click(function() {
+$("#loginLink").click(function(evt) {
   console.log("clicked auth");
+  $('#loginLink').off('click');
   login()
   .then(function (result) {
+    $('#loginLink').children('a').html('Logout').parent().attr('id',"logOut");
     // var token = result.credential.accessToken;
     let user = result.user;
     console.log("logged in user", user.uid);
@@ -246,7 +248,6 @@ $("a").click(function(e){
 $("#searchMovies").click(function() {
   let searchQuery = $("#movieTitleInput").val();
   console.log("clicked search");
-  debugger;
   db.searchMovies(searchQuery).then( function (movieTitles) {
     var movieTitlesArray = [];
     $.each(movieTitles.Search, function (index, key) {
