@@ -97,7 +97,7 @@ $("#watched-button").click(function () {
   sortWatched()
 })
 
-$("#rating-slider").on("change", function () {
+$("#rating-slider").on("input", function () {
   let currentRating = $("#rating-slider").val()
   $(".breadcrumb-target").html(`Movies You've Rated ${currentRating} Stars`)
   sortByRating()
