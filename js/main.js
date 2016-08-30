@@ -7,6 +7,7 @@ let $ = require('jquery'),
     login = require("./user"),
     firebase = require("firebase/app"),
     userId = "",
+    myMovies = [],
     movieResultsArray = [];
 
 
@@ -16,7 +17,7 @@ function loadMoviesToDOM() {
   fb.getMovies()
   .then(function(movieData){
     var movieIdArr = Object.keys(movieData);
-    movieIdArr.forEach(function(key){
+    movieIdArr.forEach(function(key, val){
       movieData[key].id = key;
     });
     console.log("movie obj with ID added", movieData);
@@ -68,6 +69,61 @@ $("#searchMovies").click(function() {
 
 });
 
+
+
+
+
+//************ was working on comparing firebase movie ID to
+//************ OMBD movie ID, checking if they were the same,
+//************ and omitting duplicates.  Didn't finish
+
+// $("#searchMovies").click(function() {
+//   myMovies = [];
+//   let searchQuery = $("#movieTitleInput").val();
+//   console.log("clicked search");
+
+//    fb.getMovies()
+//     .then(function(movieData){
+//       $.each(movieData, function(key, val) {
+//         $.each(val, function (moreKeys, moreVals) {
+//           if (moreKeys === "movieID") {
+//             myMovies.push(moreVals);
+//           }
+//         });
+//       });
+//    }).then(function () {
+//     db.searchMovies(searchQuery).then( function (movieTitles) {
+//       var movieTitlesArray = [];
+//       for (var j = 0; j < movieTitles.Search.length; j++) {
+//         var a = movieTitles.Search[j].imdbID;
+//         for (var h = 0; h < myMovies.length; h++) {
+//           var b = myMovies[h];
+//           if (a === b) {
+//             console.log("match", a, b);
+//           } else {
+//             console.log(movieTitles.Search[j].Title);
+//           }
+//         }
+//       }
+
+//       $.each(movieTitles.Search, function (index, key) {
+//         movieTitlesArray.push(key.Title);
+//       });
+
+//       for (var i = 0; i < movieTitlesArray.length; i++ ) {
+//         movieTitlesArray[i] = movieTitlesArray[i].replace(/\s/g, '+');
+//       }
+
+//         console.log(movieTitlesArray);
+//         db.secondMovieCall(movieTitlesArray);
+//     });
+//    });
+// });
+//*******************************************
+
+
+
+
 $(document).on("click", ".addButton", function() {
   let movieID = $(this).data("add-id");
   let movieObject = db.buildMovieObject(movieID, userId);
@@ -83,25 +139,5 @@ $(document).on("click", ".deleteChip", function() {
     loadMoviesToDOM();
   });
 });
-
-// $(document).on("click", ".delete-btn", function () {
-//   let songId = $(this).data("delete-id");
-//   console.log("songId", songId);
-//   console.log("button clicked");
-//     db.deleteSong(songId)
-//     .then(function(data){
-//       loadSongsToDOM();
-//     });
-// });
-
-
-
-
-
-// $(document).on("click", ".miscButton", function() {
-//   let movieID = $(this).data("add-id");
-//   db.buildMovieObject(movieID);
-// });
-
 
 
