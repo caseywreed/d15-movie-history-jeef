@@ -68,7 +68,10 @@ $("#searchMovies").click(function() {
 
 });
 
-
+$("#untracked-button").click(function () {})
+$("#unwatched-button").click(function () {})
+$("#watched-button").click(function () {})
+$("#favorites-button").click(function () {})
 
 
 
