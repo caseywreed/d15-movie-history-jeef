@@ -58,12 +58,12 @@ function secondMovieCall(movieData){
 
 
 function buildMovieObject (movieID, userId) {
-
   let movieObj = {
     Title: $(`#movieTitle${movieID}`).text(),
     Year: $(`#movieYear${movieID}`).text(),
     Actors: $(`#movieActors${movieID}`).text(),
     Rating: $(`#movieRating${movieID}`).text(),
+    Poster: $(`#moviePicture${movieID}`).attr('src'),
     uid: userId,
     movieID: movieID,
     fbId: null
