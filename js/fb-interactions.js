@@ -17,6 +17,20 @@ function getMovies(userID) {
   });
 }
 
+function editMovie(movieData, movieID) {
+  console.log(movieData , '  ', movieID)
+  return new Promise(function(resolve, reject){
+    $.ajax({
+      url: `https://cat-ladies-movie-history.firebaseio.com/movies/${movieID}.json`,
+      type: 'PATCH',
+      data: JSON.stringify(movieData)
+    }).done(function(data){
+        resolve(data);
+    });
+  });
+}
+
+
 
 function saveMovie(movieObj) {
   // console.log("fb 22 movie object", movieObj);
@@ -33,10 +47,10 @@ function saveMovie(movieObj) {
 }
 
 
-function deleteMovie(movieId) {
+function deleteMovie(movieID) {
   return new Promise(function (resolve, reject) {
     $.ajax({
-      url: `https://cat-ladies-movie-history.firebaseio.com/movies/${movieId}.json`,
+      url: `https://cat-ladies-movie-history.firebaseio.com/movies/${movieID}.json`,
       type: 'DELETE'
     }).done(function (data) {
       resolve(data);
@@ -46,4 +60,4 @@ function deleteMovie(movieId) {
 
 
 
-module.exports = {saveMovie, deleteMovie, getMovies};
+module.exports = {saveMovie, deleteMovie, getMovies, editMovie};

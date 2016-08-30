@@ -18,12 +18,14 @@ var savedTemplate = require('../templates/final-card.hbs');
 // });
 
 let displayAll = function(movieResultsArray) {
-    console.log("results", movieResultsArray);
-    let movieList = {movies: movieResultsArray};
-    $(".mhMain").html("");
-    $(".mhMain").append(savedTemplate(movieList));
-    // $("#ssPop").prop('disabled', true);
+    return new Promise(function(resolve, reject){
+      console.log("results", movieResultsArray);
+      let movieList = {movies: movieResultsArray};
+      $(".mhMain").html("");
+      $(".mhMain").append(savedTemplate(movieList));
+      // $("#ssPop").prop('disabled', true);
+      resolve();
+    })
   };
 
 module.exports = {displayAll};
-

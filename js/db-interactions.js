@@ -62,7 +62,7 @@ function buildMovieObject (movieID, userId) {
     Title: $(`#movieTitle${movieID}`).text(),
     Year: $(`#movieYear${movieID}`).text(),
     Actors: $(`#movieActors${movieID}`).text(),
-    Rating: $(`#movieRating${movieID}`).text(),
+    Rating: 0,
     Poster: $(`#moviePicture${movieID}`).attr('src'),
     uid: userId,
     movieID: movieID,
