@@ -75,74 +75,74 @@ $("#searchMovies").click(function() {
 
 });
 
+// SORTING SECTION
+// Work towards using displayAll to work alongside these FB calls
+
 $("#untracked-button").click(function () {
   $(".breadcrumb-target").html("Search Field (Including Movies You've Saved)")
 })
 
 $("#unwatched-button").click(function () {
   $(".breadcrumb-target").html("Your Unwatched Movies")
+  sortUnwatched()
 })
 
 $("#watched-button").click(function () {
   $(".breadcrumb-target").html("Your Watched Movies")
+  sortWatched()
 })
 
 $("#rating-slider").on("change", function () {
   let currentRating = $("#rating-slider").val()
   $(".breadcrumb-target").html(`Movies You've Rated ${currentRating} Stars`)
+  sortByRating()
 })
 
+function sortUnwatched () {
+  let selectedUserMovies = []
+  fb.getMovies(userId)
+  .then(function (fbMovieData) {
+    // console.log("fbMovieData", fbMovieData)
+    for (var movie in fbMovieData) {
+      if (!fbMovieData[movie].Rating) {
+        selectedUserMovies.push(fbMovieData[movie])
+      }
+    }
+    // console.log("selectedUserMovies", selectedUserMovies)
+    hb.displayAll(selectedUserMovies)
+  })
+}
 
+function sortWatched () {
+  let selectedUserMovies = []
+  fb.getMovies(userId)
+  .then(function (fbMovieData) {
+    // console.log("fbMovieData", fbMovieData)
+    for (var movie in fbMovieData) {
+      if (fbMovieData[movie].Rating) {
+        selectedUserMovies.push(fbMovieData[movie])
+      }
+    }
+    // console.log("selectedUserMovies", selectedUserMovies)
+    hb.displayAll(selectedUserMovies)
+  })
+}
 
-//************ was working on comparing firebase movie ID to
-//************ OMBD movie ID, checking if they were the same,
-//************ and omitting duplicates.  Didn't finish
-
-// $("#searchMovies").click(function() {
-//   myMovies = [];
-//   let searchQuery = $("#movieTitleInput").val();
-//   console.log("clicked search");
-
-//    fb.getMovies()
-//     .then(function(movieData){
-//       $.each(movieData, function(key, val) {
-//         $.each(val, function (moreKeys, moreVals) {
-//           if (moreKeys === "movieID") {
-//             myMovies.push(moreVals);
-//           }
-//         });
-//       });
-//    }).then(function () {
-//     db.searchMovies(searchQuery).then( function (movieTitles) {
-//       var movieTitlesArray = [];
-//       for (var j = 0; j < movieTitles.Search.length; j++) {
-//         var a = movieTitles.Search[j].imdbID;
-//         for (var h = 0; h < myMovies.length; h++) {
-//           var b = myMovies[h];
-//           if (a === b) {
-//             console.log("match", a, b);
-//           } else {
-//             console.log(movieTitles.Search[j].Title);
-//           }
-//         }
-//       }
-
-//       $.each(movieTitles.Search, function (index, key) {
-//         movieTitlesArray.push(key.Title);
-//       });
-
-//       for (var i = 0; i < movieTitlesArray.length; i++ ) {
-//         movieTitlesArray[i] = movieTitlesArray[i].replace(/\s/g, '+');
-//       }
-
-//         console.log(movieTitlesArray);
-//         db.secondMovieCall(movieTitlesArray);
-//     });
-//    });
-// });
-//*******************************************
-
-
+function sortByRating () {
+  let selectedUserMovies = []
+  let userRating = $("#rating-slider").val()
+  fb.getMovies(userId)
+  .then(function (fbMovieData) {
+    // console.log("fbMovieData", fbMovieData)
+    for (var movie in fbMovieData) {
+      if (fbMovieData[movie].Rating == userRating) {
+        selectedUserMovies.push(fbMovieData[movie])
+      }
+    }
+    // console.log("selectedUserMovies", selectedUserMovies)
+    hb.displayAll(selectedUserMovies)
+  })
+}
 
 
 $(document).on("click", ".addButton", function() {
