@@ -58,33 +58,14 @@ $("a").click(function(e){
     e.preventDefault();
 });
 
-$("#searchMovies").click(function() {
-  let searchQuery = $("#movieTitleInput").val();
-  console.log("clicked search");
-  if (user !== undefined) {
-
-  db.searchMovies(searchQuery).then( function (movieTitles) {
-    var movieTitlesArray = [];
-    $.each(movieTitles.Search, function (index, key) {
-      movieTitlesArray.push(key.Title);
-    });
-
-    for (var i = 0; i < movieTitlesArray.length; i++ ) {
-      movieTitlesArray[i] = movieTitlesArray[i].replace(/\s/g, '+');
-    }
-
-      console.log(movieTitlesArray);
-      db.secondMovieCall(movieTitlesArray);
-  });
-}
-
-});
+$("#searchMovies").click( ()=> searchUntrackedMovies() );
 
 // SORTING SECTION
 // Work towards using displayAll to work alongside these FB calls
 
 $("#untracked-button").click(function () {
   $(".breadcrumb-target").html("Search Field (Including Movies You've Saved)")
+  searchUntrackedMovies()
 })
 
 $("#unwatched-button").click(function () {
@@ -97,7 +78,7 @@ $("#watched-button").click(function () {
   sortWatched()
 })
 
-$("#rating-slider").on("input", function () {
+$("#rating-slider").on('mouseup', function () {
   let currentRating = $("#rating-slider").val()
   $(".breadcrumb-target").html(`Movies You've Rated ${currentRating} Stars`)
   sortByRating()
@@ -113,11 +94,15 @@ function sortUnwatched () {
         selectedUserMovies[movie] = fbMovieData[movie];
       }
     }
-    // console.log("selectedUserMovies", selectedUserMovies)
-    hb.displayAll(selectedUserMovies)
-    .then(function () {
-     setRating($('.rating'), selectedUserMovies);
-   });
+
+    if(Object.keys(selectedUserMovies).length === 0){
+      $('.mhMain').html('<h4 class="center-align">You have no unwatched movies.</h4>')
+    } else {
+      hb.displayAll(selectedUserMovies)
+      .then(function () {
+       setRating($('.rating'), selectedUserMovies);
+     });
+    }
   })
 }
 
@@ -140,22 +125,53 @@ function sortWatched () {
 }
 
 function sortByRating () {
-  let selectedUserMovies = []
+  let selectedUserMovies = {}
   let userRating = $("#rating-slider").val()
   fb.getMovies(userId)
   .then(function (fbMovieData) {
     // console.log("fbMovieData", fbMovieData)
     for (var movie in fbMovieData) {
       if (fbMovieData[movie].Rating == userRating) {
-        selectedUserMovies.push(fbMovieData[movie])
+        selectedUserMovies[movie] = fbMovieData[movie];
       }
     }
-    // console.log("selectedUserMovies", selectedUserMovies)
-    hb.displayAll(selectedUserMovies)
-    .then(function () {
-     setRating($('.rating'), selectedUserMovies);
-   });
+
+    if(Object.keys(selectedUserMovies).length === 0){
+      $('.mhMain').html(`<h4 class="center-align">You have no movies currently rated ${userRating}.</h4>`)
+    } else {
+      hb.displayAll(selectedUserMovies)
+      .then(function () {
+       setRating($('.rating'), selectedUserMovies);
+     });
+    }
   })
+}
+
+function searchUntrackedMovies(){
+    let searchQuery = $("#movieTitleInput").val();
+
+    if(searchQuery === ''){
+      $('.mhMain').html('<h4 class="center-align">You need to enter a search term above.</h4>')
+      return;
+    }
+
+    console.log("clicked search");
+    if (user !== undefined) {
+
+    db.searchMovies(searchQuery).then( function (movieTitles) {
+        var movieTitlesArray = [];
+        $.each(movieTitles.Search, function (index, key) {
+          movieTitlesArray.push(key.Title);
+        });
+
+        for (var i = 0; i < movieTitlesArray.length; i++ ) {
+          movieTitlesArray[i] = movieTitlesArray[i].replace(/\s/g, '+');
+        }
+
+          console.log(movieTitlesArray);
+          db.secondMovieCall(movieTitlesArray);
+      });
+    }
 }
 
 
