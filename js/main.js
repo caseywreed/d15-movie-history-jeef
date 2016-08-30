@@ -143,5 +143,3 @@ $(document).on("click", ".deleteChip", function() {
     loadMoviesToDOM();
   });
 });
-
-
