@@ -42,11 +42,10 @@ $("#loginLink").click(function(evt) {
     user = result.user;
     console.log(user);
     console.log("logged in user", user.uid);
-    userId = user.uid;//uid is the key to building a proper firebase app!
+    userId = user.uid;
+    let loginToast = `<span><img class="login-img" src="${user.photoURL}"><h6>${user.displayName} successfully logged in!</h6></span>`
+    Materialize.toast(loginToast, 2000)
     loadIntialMoviesToDOM();
-    // console.log("logged in user", user.uid);
-    // userId = user.uid;
-    // loadSongsToDOM();
   });
 });
 
@@ -179,7 +178,7 @@ $(document).on("click", ".addButton", function() {
   let movieID = $(this).data("add-id");
   let movieObject = db.buildMovieObject(movieID, userId);
   fb.saveMovie(movieObject);
-  console.log("main 60 movie saved", movieObject);
+  Materialize.toast("Movie saved!", 4000)
 });
 
 $(document).on("click", ".deleteChip", function(evt) {
@@ -188,5 +187,6 @@ $(document).on("click", ".deleteChip", function(evt) {
     fb.deleteMovie(movieID)
     .then(function(){
       $(`#movieCard${movieID}`).remove();
+      Materialize.toast("Movie deleted!", 4000)
   });
 });

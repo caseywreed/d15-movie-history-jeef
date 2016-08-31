@@ -13,7 +13,7 @@ module.exports = function(grunt) {
     },
     jshint: {
       options: {
-        predef: [ "document", "console", "rating"],
+        predef: [ "document", "console", "rating", "Materialize"],
         esnext: true,
         globalstrict: true,
         globals: {},
