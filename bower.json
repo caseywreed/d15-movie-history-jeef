@@ -17,6 +17,7 @@
     "tests"
   ],
   "dependencies": {
-    "five-star-rating": "^1.0.0"
+    "five-star-rating": "^1.0.0",
+    "materialize": "^0.97.7"
   }
 }
